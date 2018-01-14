@@ -79,9 +79,21 @@ function messageUpdated(guild, channel, user, oldMessage, newMessage){
     console.log(f_string)
 }
 
+function messageDeleted(guild, channel, user, message){
+    let f_string = getTimestamp() + ' | ' + guild + ' | #' + channel + ' ' + user + ' ' + message;
+    if (config.logToFile){
+        if (!fs.existsSync('logs/servers/' + guild + '/deleted')){
+            fs.mkdirSync('logs/servers/' + guild + '/deleted');
+        }
+        _write('servers/' + guild + '/deleted/' + channel + '.txt', f_string)
+    }
+    console.log(f_string)
+}
+
 module.exports = {
     public: public,
     messageUpdated: messageUpdated,
+    messageDeleted: messageDeleted,
     info: info,
     warn: warn,
     error: error
