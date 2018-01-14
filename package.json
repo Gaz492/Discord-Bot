@@ -1,0 +1,14 @@
+{
+  "name": "FTBDiscordBot",
+  "version": "0.0.1",
+  "description": "Discord Bot For FTB",
+  "main": "src/bot.js",
+  "author": "Gareth Williams",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "discord.io": "^2.5.3",
+    "discord.js": "^11.2.1",
+    "moment": "^2.20.1"
+  }
+}
