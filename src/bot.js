@@ -23,7 +23,9 @@ client.on('message', message => {
 });
 
 client.on('messageUpdate', (oldMessage, newMessage) =>{
-    logging.messageUpdated(oldMessage.guild.name, oldMessage.channel.name, oldMessage.author.username + '#' + oldMessage.author.discriminator, oldMessage.toString(), newMessage.toString());
+    if (oldMessage.toString() !== newMessage.toString()){
+        logging.messageUpdated(oldMessage.guild.name, oldMessage.channel.name, oldMessage.author.username + '#' + oldMessage.author.discriminator, oldMessage.toString(), newMessage.toString());
+    }
     // if(newMessage.toString().startsWith('!')){
     //     commandManager.onCommand(newMessage)
     // }else{
