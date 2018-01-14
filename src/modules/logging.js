@@ -10,9 +10,6 @@ const moment = require('moment');
 
 const config = require('../../configs/bot');
 
-const log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
-const log_stdout = process.stdout;
-
 
 console.log("Checking if logs folder exists");
 if (!fs.existsSync('logs')){
@@ -39,7 +36,7 @@ function _write(file, message){
 function info(msg){
     let f_string = getTimestamp() + ' | INFO | ' + msg;
     if (config.logToFile){
-        _write('info.log', f_string)
+        _write('info.txt', f_string)
     }
     console.log(f_string)
 }
@@ -47,7 +44,7 @@ function info(msg){
 function warn(msg){
     let f_string = getTimestamp() + ' | WARN | ' + msg;
     if (config.logToFile){
-        _write('warn.log', f_string)
+        _write('warn.txt', f_string)
     }
     console.log(f_string)
 }
@@ -55,7 +52,7 @@ function warn(msg){
 function error(msg){
     let f_string = getTimestamp() + ' | ERROR | ' + msg;
     if (config.logToFile){
-        _write('error.log', f_string)
+        _write('error.txt', f_string)
     }
     console.log(f_string)
 }
@@ -66,7 +63,7 @@ function public(guild, channel, user, message){
         if (!fs.existsSync('logs/servers/' + guild)){
             fs.mkdirSync('logs/servers/' + guild);
         }
-        _write('servers/' + guild + '/' + channel + '.log', f_string)
+        _write('servers/' + guild + '/' + channel + '.txt', f_string)
     }
     console.log(f_string)
 }
@@ -77,7 +74,7 @@ function messageUpdated(guild, channel, user, oldMessage, newMessage){
         if (!fs.existsSync('logs/servers/' + guild + '/updated')){
             fs.mkdirSync('logs/servers/' + guild + '/updated');
         }
-        _write('servers/' + guild + '/updated/' + channel + '.log', f_string)
+        _write('servers/' + guild + '/updated/' + channel + '.txt', f_string)
     }
     console.log(f_string)
 }
