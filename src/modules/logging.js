@@ -13,11 +13,11 @@ const config = require('../../configs/bot');
 
 console.log("Checking if logs folder exists");
 if (!fs.existsSync('logs')) {
-    console.log("Making logs folder");
+    info("Making logs folder");
     fs.mkdirSync('logs');
 }
 if (!fs.existsSync('logs/servers')) {
-    console.log("Making logs/servers folder");
+    info("Making logs/servers folder");
     fs.mkdirSync('logs/servers');
 }
 

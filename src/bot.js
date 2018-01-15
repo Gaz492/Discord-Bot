@@ -12,11 +12,11 @@ const config = require('../configs/bot');
 const logger = require('./modules/logging');
 
 client.on('ready', () => {
-    console.log('I am ready!');
+    logger.info('I am ready!');
     let currentGuilds = client.guilds.array();
-    for(let guild in currentGuilds){
+    for (let guild in currentGuilds) {
         if (!fs.existsSync('logs/servers/' + currentGuilds[guild].name)) {
-            console.log('Making folder', currentGuilds[guild].name);
+            logger.info('Making folder ' + currentGuilds[guild].name);
             fs.mkdirSync('logs/servers/' + currentGuilds[guild].name);
         }
     }
@@ -26,22 +26,35 @@ client.on('message', message => {
     logger.public(message.guild.name, message.channel.name, message.author.username + '#' + message.author.discriminator, message.toString());
 });
 
-client.on('messageUpdate', (oldMessage, newMessage) =>{
-    if (oldMessage.toString() !== newMessage.toString()){
+client.on('messageUpdate', (oldMessage, newMessage) => {
+    if (oldMessage.toString() !== newMessage.toString()) {
         logger.messageUpdated(oldMessage.guild.name, oldMessage.channel.name, oldMessage.author.username + '#' + oldMessage.author.discriminator, oldMessage.toString(), newMessage.toString());
     }
 });
 
-client.on('messageDelete', message =>{
+client.on('messageDelete', message => {
     logger.messageDeleted(message.guild.name, message.channel.name, message.author.username + '#' + message.author.discriminator, message.toString());
 });
 
-client.on('guildBanAdd', (guild, user) =>{
+client.on('guildUpdate', (oldGuild, newGuild) => {
+    if(oldGuild.name !== newGuild.name){
+        if (fs.existsSync('logs/servers/' + oldGuild.name)) {
+            logger.info('Renaming log folder ' + oldGuild.name + ' to ' + newGuild.name);
+            fs.rename('logs/servers/' + oldGuild.name, 'logs/servers/' + newGuild.name, function(err){
+                if(err){
+                    logger.error('An error occurred when renaming log folder ' + oldGuild.name + ' to ' + newGuild.name)
+                }
+            });
+        }
+    }
+});
+
+client.on('guildBanAdd', (guild, user) => {
     logger.newBan(guild.name, user.username + '#' + user.discriminator);
 });
 
-client.on('guildBanRemoved', (guild, user) =>{
-    logger.newBan(guild.name, user.username + '#' + user.discriminator);
+client.on('guildBanRemoved', (guild, user) => {
+    logger.removedBan(guild.name, user.username + '#' + user.discriminator);
 });
 
 client.login(config.bot_token);
