@@ -6,27 +6,42 @@
 
 const Discord = require('discord.js');
 const client = new Discord.Client();
+const fs = require('fs');
 
 const config = require('../configs/bot');
-const logging = require('./modules/logging');
-const commandManager = require('./modules/commandHandler');
+const logger = require('./modules/logging');
 
 client.on('ready', () => {
     console.log('I am ready!');
+    let currentGuilds = client.guilds.array();
+    for(let guild in currentGuilds){
+        if (!fs.existsSync('logs/servers/' + currentGuilds[guild].name)) {
+            console.log('Making folder', currentGuilds[guild].name);
+            fs.mkdirSync('logs/servers/' + currentGuilds[guild].name);
+        }
+    }
 });
 
 client.on('message', message => {
-    logging.public(message.guild.name, message.channel.name, message.author.username + '#' + message.author.discriminator, message.toString());
+    logger.public(message.guild.name, message.channel.name, message.author.username + '#' + message.author.discriminator, message.toString());
 });
 
 client.on('messageUpdate', (oldMessage, newMessage) =>{
     if (oldMessage.toString() !== newMessage.toString()){
-        logging.messageUpdated(oldMessage.guild.name, oldMessage.channel.name, oldMessage.author.username + '#' + oldMessage.author.discriminator, oldMessage.toString(), newMessage.toString());
+        logger.messageUpdated(oldMessage.guild.name, oldMessage.channel.name, oldMessage.author.username + '#' + oldMessage.author.discriminator, oldMessage.toString(), newMessage.toString());
     }
 });
 
 client.on('messageDelete', message =>{
-    logging.messageDeleted(message.guild.name, message.channel.name, message.author.username + '#' + message.author.discriminator, message.toString());
+    logger.messageDeleted(message.guild.name, message.channel.name, message.author.username + '#' + message.author.discriminator, message.toString());
+});
+
+client.on('guildBanAdd', (guild, user) =>{
+    logger.newBan(guild.name, user.username + '#' + user.discriminator);
+});
+
+client.on('guildBanRemoved', (guild, user) =>{
+    logger.newBan(guild.name, user.username + '#' + user.discriminator);
 });
 
 client.login(config.bot_token);
