@@ -13,6 +13,7 @@ const logger = require('./modules/logging');
 
 client.on('ready', () => {
     logger.info('I am ready!');
+    client.user.setGame(config.playingText);
     let currentGuilds = client.guilds.array();
     for (let guild in currentGuilds) {
         if (!fs.existsSync('logs/servers/' + currentGuilds[guild].name)) {
