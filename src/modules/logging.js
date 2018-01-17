@@ -13,11 +13,11 @@ const config = require('../../configs/bot');
 
 console.log("Checking if logs folder exists");
 if (!fs.existsSync('logs')) {
-    info("Making logs folder");
+    console.log("Making logs folder");
     fs.mkdirSync('logs');
 }
 if (!fs.existsSync('logs/servers')) {
-    info("Making logs/servers folder");
+    console.log("Making logs/servers folder");
     fs.mkdirSync('logs/servers');
 }
 
@@ -27,7 +27,8 @@ function getTimestamp() {
 
 function _write(file, message) {
     let logger = fs.createWriteStream('logs/' + file, {
-        flags: 'a' // 'a' means appending (old data will be preserved)
+        flags: 'a', // 'a' means appending (old data will be preserved)
+        encoding: 'utf8'
     });
     logger.write(message + '\n');
     logger.end();
