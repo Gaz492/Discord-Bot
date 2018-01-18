@@ -8,7 +8,7 @@ const fs = require('fs');
 const util = require('util');
 const moment = require('moment');
 
-const config = require('../../configs/config');
+const config = require('../../../configs/config');
 
 
 console.log("Checking if logs folder exists");
