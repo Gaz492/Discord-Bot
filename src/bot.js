@@ -8,7 +8,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const fs = require('fs');
 
-const config = require('../configs/bot');
+const config = require('../configs/config');
 const logger = require('./modules/logging');
 
 client.on('ready', () => {

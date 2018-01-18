@@ -5,8 +5,10 @@
 //////////////////////////////////////////////////////////////////////
 
 const config = {
-    bot_token: "TOKEN_HERE",
-    logToFile: true
+    bot_token: "",
+    client_id: "",
+    logToFile: true,
+    playingText: "I spy 👀"
 };
 
 module.exports = config;
