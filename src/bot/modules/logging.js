@@ -10,7 +10,6 @@ const moment = require('moment');
 
 const config = require('../../../configs/config');
 
-
 console.log("Checking if logs folder exists");
 if (!fs.existsSync('logs')) {
     console.log("Making logs folder");
