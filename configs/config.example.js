@@ -4,12 +4,12 @@
 //  Project: FTBDiscordBot - 
 //////////////////////////////////////////////////////////////////////
 
-const logging = require('./logging');
+const config = {
+    bot_token: "",
+    client_id: "",
+    logToFile: true,
+    playingText: "I spy 👀",
+    webServerPort: 3030
+};
 
-function onMessage(message){
-
-}
-
-module.exports = {
-    onMessage:onMessage
-}
+module.exports = config;
