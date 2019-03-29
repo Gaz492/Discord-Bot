@@ -2,7 +2,9 @@ const Discord = require('discord.js');
 const mongoose = require('mongoose');
 
 const client = new Discord.Client();
-const chatLog = mongoose.model('ChatLog');
+const MessageLog = mongoose.model('MessageLog');
+// const editedMessageLog = mongoose.model('EditedMessageLog');
+// const deletedMessageLog = mongoose.model('DeletedMessageLog');
 
 const config = require('../config/config');
 const enums = require('../util/enums');
@@ -31,11 +33,10 @@ client.on('message', message => {
             username: message.author.username + '#' + message.author.discriminator,
             messageID: message.id,
             message: message.toString(),
-            oldMessage: '',
             type: enums.messageType.NEW
         };
 
-        const log = new chatLog(logMessage).save()
+        const log = new MessageLog(logMessage).save()
     } catch (err) {
         console.error("Invalid User ID")
     }
@@ -44,23 +45,41 @@ client.on('message', message => {
 client.on('messageUpdate', (oldMessage, newMessage) => {
     if (oldMessage.toString() !== newMessage.toString()) {
         // logger.messageUpdated(oldMessage.guild.name, oldMessage.channel.name, oldMessage.author.username + '#' + oldMessage.author.discriminator, oldMessage.toString(), newMessage.toString());
-        const msgID = {messageID: oldMessage.id};
-        chatLog.findOneAndUpdate(msgID, {message: newMessage.toString(), oldMessage: oldMessage.toString(), type: enums.messageType.UPDATED}, {}, (err, doc) => {
-            if(err){
-                console.error("Something went wrong")
-            }
-        })
+        try {
+            const logMessage = {
+                guild: newMessage.guild.name,
+                channel: newMessage.channel.name,
+                userID: newMessage.author.id,
+                username: newMessage.author.username + '#' + newMessage.author.discriminator,
+                messageID: newMessage.id,
+                message: newMessage.toString(),
+                type: enums.messageType.UPDATED
+            };
+
+            const log = new MessageLog(logMessage).save()
+        } catch (err) {
+            console.error("Invalid User ID")
+        }
     }
 });
 
 client.on('messageDelete', message => {
     // logger.messageDeleted(message.guild.name, message.channel.name, message.author.username + '#' + message.author.discriminator, message.toString());
-    const msgID = {messageID: message.id};
-    chatLog.findOneAndUpdate(msgID, {type: enums.messageType.DELETED}, {}, (err) => {
-        if(err){
-            console.error("Something went wrong")
-        }
-    })
+    try {
+        const logMessage = {
+            guild: message.guild.name,
+            channel: message.channel.name,
+            userID: message.author.id,
+            username: message.author.username + '#' + message.author.discriminator,
+            messageID: message.id,
+            message: message.toString(),
+            type: enums.messageType.DELETED
+        };
+
+        const log = new MessageLog(logMessage).save()
+    } catch (err) {
+        console.error("Invalid User ID")
+    }
 });
 
 

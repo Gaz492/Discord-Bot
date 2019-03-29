@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
-const chatLog = mongoose.model('ChatLog');
+const messageLog = mongoose.model('MessageLog');
 
 /* GET home page. */
 router.get('/chatLog', function(req, res, next) {
@@ -13,7 +13,7 @@ router.get('/chatLog', function(req, res, next) {
     query['type'] = req.query.type;
   }
 
-  chatLog.find(query, 'guild channel userID username messageID message oldMessage type createdAt updatedAt', (err, docs) => {
+  messageLog.find(query, 'guild channel userID username messageID message type createdAt updatedAt', (err, docs) => {
     res.json(docs)
   });
 });
