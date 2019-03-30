@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 const client = new Discord.Client();
 const MessageLog = mongoose.model('MessageLog');
-// const editedMessageLog = mongoose.model('EditedMessageLog');
+const Guilds = mongoose.model('Guilds');
 // const deletedMessageLog = mongoose.model('DeletedMessageLog');
 
 const config = require('../config/config');
@@ -14,20 +14,34 @@ client.on('ready', () => {
     console.log("Discord Connected");
     client.user.setActivity(config.discord.activityText);
     //TODO Log guilds to mongodb
-    // let currentGuilds = client.guilds.array();
-    // for (let guild in currentGuilds) {
-    //     if (!fs.existsSync('logs/servers/' + currentGuilds[guild].name)) {
-    //         logger.info('Making folder ' + currentGuilds[guild].name);
-    //         fs.mkdirSync('logs/servers/' + currentGuilds[guild].name);
-    //     }
-    // }
+    let currentGuilds = client.guilds.array();
+    for (let guild in currentGuilds) {
+        Guilds.findOne({guildID: currentGuilds[guild].id}, (err, data) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            if (data == null) {
+                guildData = {
+                    guildID: currentGuilds[guild].id,
+                    guildName: currentGuilds[guild].name
+                };
+                let guildCB = new Guilds(guildData).save();
+            }
+
+        })
+        // if (!fs.existsSync('logs/servers/' + currentGuilds[guild].name)) {
+        //     logger.info('Making folder ' + currentGuilds[guild].name);
+        //     fs.mkdirSync('logs/servers/' + currentGuilds[guild].name);
+        // }
+    }
 });
 
 client.on('message', message => {
     // logger.public(message.guild.name, message.channel.name, message.author.username + '#' + message.author.discriminator, message.toString());
     try {
         const logMessage = {
-            guild: message.guild.name,
+            guild: message.guild.id,
             channel: message.channel.name,
             userID: message.author.id,
             username: message.author.username + '#' + message.author.discriminator,
@@ -47,7 +61,7 @@ client.on('messageUpdate', (oldMessage, newMessage) => {
         // logger.messageUpdated(oldMessage.guild.name, oldMessage.channel.name, oldMessage.author.username + '#' + oldMessage.author.discriminator, oldMessage.toString(), newMessage.toString());
         try {
             const logMessage = {
-                guild: newMessage.guild.name,
+                guild: newMessage.guild.id,
                 channel: newMessage.channel.name,
                 userID: newMessage.author.id,
                 username: newMessage.author.username + '#' + newMessage.author.discriminator,
@@ -67,7 +81,7 @@ client.on('messageDelete', message => {
     // logger.messageDeleted(message.guild.name, message.channel.name, message.author.username + '#' + message.author.discriminator, message.toString());
     try {
         const logMessage = {
-            guild: message.guild.name,
+            guild: message.guild.id,
             channel: message.channel.name,
             userID: message.author.id,
             username: message.author.username + '#' + message.author.discriminator,

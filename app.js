@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const config = require('./config/config');
 
 require('./models/ChatLog');
+require('./models/Guilds');
 mongoose.Promise = global.Promise;
 mongoose.set('debug', true);
 promise = mongoose.connect(config.mongodb.URI, {
