@@ -18,6 +18,6 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.use('/', indexRouter);
+app.use('/bot', indexRouter);
 
 module.exports = app;
