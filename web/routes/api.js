@@ -14,7 +14,7 @@ router.get('/chatLog', function(req, res, next) {
     query['type'] = req.query.type;
   }
 
-  messageLog.find(query, 'guild channel userID username messageID message type createdAt updatedAt', (err, docs) => {
+  messageLog.find(query, 'guild channelParent channel userID username messageID message type createdAt updatedAt', (err, docs) => {
     res.json(docs)
   });
 });
