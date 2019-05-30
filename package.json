@@ -9,11 +9,11 @@
   "author": "Gareth Williams",
   "license": "All rights reserved",
   "dependencies": {
-    "cookie-parser": "~1.4.3",
-    "debug": "~2.6.9",
-    "discord.js": "^11.4.2",
-    "express": "^4.16.4",
-    "mongoose": "^5.4.20",
-    "morgan": "~1.9.0"
+    "cookie-parser": "~1.4.4",
+    "debug": "~4.1.1",
+    "discord.js": "^11.5.1",
+    "express": "^4.17.1",
+    "mongoose": "^5.5.11",
+    "morgan": "~1.9.1"
   }
 }
