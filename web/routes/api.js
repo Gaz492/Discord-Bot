@@ -24,7 +24,7 @@ router.get('/chatLog', function (req, res, next) {
     console.log(skip);
 
     messageLog.find(query, 'guild channel userID username messageID message type createdAt updatedAt', {
-        sort: {'created_at': -1},
+        sort: {_id: -1},
         limit: limit,
         skip: skip
     }, (err, docs) => {
