@@ -3,6 +3,7 @@ const {Schema} = mongoose;
 
 const MessageSchema = new Schema({
     guild: String,
+    channelParent: String,
     channel: String,
     userID: String,
     username: String,

@@ -42,6 +42,7 @@ client.on('message', message => {
     try {
         const logMessage = {
             guild: message.guild.id,
+            channelParent: message.channel.parent.name,
             channel: message.channel.name,
             userID: message.author.id,
             username: message.author.username + '#' + message.author.discriminator,
@@ -62,6 +63,7 @@ client.on('messageUpdate', (oldMessage, newMessage) => {
         try {
             const logMessage = {
                 guild: newMessage.guild.id,
+                channelParent: message.channel.parent.name,
                 channel: newMessage.channel.name,
                 userID: newMessage.author.id,
                 username: newMessage.author.username + '#' + newMessage.author.discriminator,
@@ -82,6 +84,7 @@ client.on('messageDelete', message => {
     try {
         const logMessage = {
             guild: message.guild.id,
+            channelParent: message.channel.parent.name,
             channel: message.channel.name,
             userID: message.author.id,
             username: message.author.username + '#' + message.author.discriminator,
