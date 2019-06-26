@@ -28,6 +28,10 @@ router.get('/chatLog', async function (req, res, next) {
         limit: limit,
         skip: skip
     }, (err, docs) => {
+        if(err){
+            res.json({status: "Error", code: err})
+            return;
+        }
         res.json(docs)
     });
 });
