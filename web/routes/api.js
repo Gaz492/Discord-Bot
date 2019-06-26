@@ -5,7 +5,7 @@ const messageLog = mongoose.model('MessageLog');
 const Guilds = mongoose.model('Guilds');
 
 /* GET home page. */
-router.get('/chatLog', function (req, res, next) {
+router.get('/chatLog', async function (req, res, next) {
     let query = {};
     let limit = 1000;
     let skip = 0;
